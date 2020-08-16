@@ -18,10 +18,10 @@ const orderRoutes = require('./api/routes/orders');
 app.use(morgan('dev'));
 // parsing all url encoded data
 app.use(bodyParser.urlencoded({
-    extended = false
+    extended : false
 }));
 // parsing json bodies
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // CORS headers Addition
 app.use((req, res, next) => {
@@ -29,10 +29,12 @@ app.use((req, res, next) => {
     // res.header('Access-Control-Allow-Headers','*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     // to check what methods our API supports
-    if (req.method === 'OPTIONS') {
+    if (req.method == 'OPTIONS') {
         res.header('Access-Control-Allow-Methods','GET, PUT, POST, PATCH, DELETE');
+        // res.header('Access-Control-Allow-Methods','*');
         return res.status(200).json({});
     }
+    next();
 });
 
 // imported product routes / middleware

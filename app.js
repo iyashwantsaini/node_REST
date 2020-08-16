@@ -15,9 +15,12 @@ const orderRoutes = require('./api/routes/orders');
 //     });
 // });
 
-mongoose.connect('mongodb+srv://noderest:' + process.env.MONGO_PASS + '@cluster0.8bajk.mongodb.net/' + process.env.MONGO_DB_NAME + '?retryWrites=true&w=majority', {
-    useMongoClient: true
-});
+mongoose.connect('mongodb+srv://noderest:' + process.env.MONGO_PASS + '@cluster0.8bajk.mongodb.net/' + process.env.MONGO_DB_NAME + '?retryWrites=true&w=majority'
+    // usemongoclient is depricated (no longer required)
+    // ,{
+    //     useMongoClient: true
+    // }
+);
 
 // pass all routes to auth
 app.use(morgan('dev'));

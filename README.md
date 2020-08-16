@@ -19,9 +19,67 @@ Node.js | Express.js | mongoDB | REST API
 ## Features
 
 - GET / get
+
+```
+To Access :
+{url}/
+```
+
 - ADD / post
+
+```
+To Access :
+{url}/
+```
+
+```
+To Add :
+Eg. Add product : 
+{
+    "name":"_name",
+    "price":"_price"
+}
+
+```
+
 - UPDATE / patch
+
+```
+To Access :
+{url}/_product_id
+```
+
+```
+To Update :
+(pass array as we are iterating it to dynamically get only required params)
+[
+    {
+        "propName":"_prop_you_want_to_edit","value":"_value_of_prop_u_wanna_set"
+    }
+]
+```
+
+```
+Eg. Update Book Name :
+
+GoTo : {url}/_product_id
+
+[
+    {
+        "propName":"Lord Of Rings",
+        "value":"Lord Of The Rings"
+    }
+]
+
+```
+
 - DELETE / delete
+
+```
+To Delete :
+{url}/_product_id
+```
+
 
 ## CORS
 
@@ -32,7 +90,7 @@ Node.js | Express.js | mongoDB | REST API
 
 ## .ENV Variables
 
-- Create a new file nodemon.json : 
+- Create a new file nodemon.json :
 
 ```
 {

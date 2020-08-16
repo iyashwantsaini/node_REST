@@ -1,49 +1,136 @@
 const express = require('express');
-const router=express.Router();
+const router = express.Router();
+const mongoose = require('mongoose');
+const Product = require('../models/product');
 
-router.get('/',(req,res,next)=>{
-    res.status(200).json({
-        message:'GET on /products'
-    });
+router.get('/', (req, res, next) => {
+    // res.status(200).json({
+    //     message: 'GET on /products'
+    // });
+    // Product.find().limit
+    Product
+        .find()
+        .exec()
+        .then(result => {
+            console.log(result);
+            // if (result.length >= 0) {
+            res.status(200).json(result);
+            // }else{
+            // res.status(404).json({
+            // message:'No entries'
+            // })
+            // }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        });
 });
 
-router.post('/',(req,res,next)=>{
+router.post('/', (req, res, next) => {
     // accessing using body parser
-    const product={
-        name:req.body.name,
-        price:req.body.price
-    }
-    res.status(201).json({
-        message:'POST on /products',
-        createdProduct:product
+
+    const product = new Product({
+        _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        price: req.body.price
     });
+    product
+        .save()
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: 'POST on /products',
+                createdProduct: product
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        });
 });
 
-router.get('/:productID',(req,res,next)=>{
-    const id=req.params.productID;
-    if(id=='special'){
-        res.status(200).json({
-            message:'Special ID!',
-            id:id
+router.get('/:productID', (req, res, next) => {
+    const id = req.params.productID;
+    Product.findById(id)
+        .exec()
+        .then(result => {
+            console.log(result);
+            // if id is valid and found in DB
+            if (result) {
+                res.status(200).json({
+                    result
+                });
+            }
+            // if id is valid but not in DB
+            else {
+                res.status(404).json({
+                    message: 'No entry for provided ID!'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
         });
-    }else{
-        res.status(200).json({
-            message:'Not Special ID!',
-            id:id
-        });
+
+});
+
+router.patch('/:productID', (req, res, next) => {
+    const id = req.params.productID;
+    // Get list of which parameters to update for product
+    const updateOps = {};
+    for (const ops of req.body) {
+        updateOps[ops.propName] = ops.value;
     }
-});
-
-router.patch('/:productID',(req,res,next)=>{
-        res.status(200).json({
-            message:'Product Updated!'
+    // update required props of product
+    Product.update({
+            _id: id
+        }, {
+            $set:
+                // {
+                // name: req.body.newName,
+                // price: req.body.newPrice
+                // }
+                // updateOps have only required vars
+                updateOps
+        })
+        .exec()
+        .then(result=>{
+            console.log(result);
+            res.status(200).json(result);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json({
+                error:err
+            })
         });
 });
 
-router.delete('/:productID',(req,res,next)=>{
-    res.status(200).json({
-        message:'Product Deleted!'
-    });
+router.delete('/:productID', (req, res, next) => {
+    const id = req.params.productID;
+    Product
+        .remove({
+            _id: id
+        })
+        .exec()
+        .then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
 });
 
-module.exports=router;
+module.exports = router;

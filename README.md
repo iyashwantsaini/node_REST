@@ -30,9 +30,23 @@ Node.js | Express.js | mongoDB | REST API
 - If CLIENT request is from diff SERVER : FAILURE.
 - Send correct headers to overcome CORS.
 
+## .ENV Variables
+
+- Create a new file nodemon.json : 
+
+```
+{
+    "env":{
+        "MONGO_PASS":"_pass",
+        "MONGO_DB_NAME":"_dbname"
+    }
+}
+```
+
 ## Packages
 
 - express
 - nodemon( for autorestart )
 - morgan ( for login )
 - body-parser( parsing bodies to make them readable )
+- mongoose ( unofficial mongo client )

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 // import routes
 const productRoutes = require('./api/routes/products');
@@ -14,11 +15,15 @@ const orderRoutes = require('./api/routes/orders');
 //     });
 // });
 
+mongoose.connect('mongodb+srv://noderest:' + process.env.MONGO_PASS + '@cluster0.8bajk.mongodb.net/' + process.env.MONGO_DB_NAME + '?retryWrites=true&w=majority', {
+    useMongoClient: true
+});
+
 // pass all routes to auth
 app.use(morgan('dev'));
 // parsing all url encoded data
 app.use(bodyParser.urlencoded({
-    extended : false
+    extended: false
 }));
 // parsing json bodies
 app.use(bodyParser.json());
@@ -30,7 +35,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     // to check what methods our API supports
     if (req.method == 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods','GET, PUT, POST, PATCH, DELETE');
+        res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, DELETE');
         // res.header('Access-Control-Allow-Methods','*');
         return res.status(200).json({});
     }

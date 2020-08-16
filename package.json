@@ -4,6 +4,7 @@
   "description": "A complete REST API in Node, Express, Mongo",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,8 @@
   "homepage": "https://github.com/meyash/node_REST#readme",
   "dependencies": {
     "add-gitignore": "^1.1.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
   }
 }

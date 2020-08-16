@@ -15,3 +15,16 @@ Node.js | Express.js | mongoDB | REST API
 - Layered System.
 - Uniform Interface.
 - Code on Demand(optional).
+
+## Features
+
+- GET / get
+- ADD / post
+- UPDATE / patch
+- DELETE / delete
+
+## Packages
+
+- express
+- nodemon( for autorestart )
+- morgan ( for login )

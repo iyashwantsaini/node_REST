@@ -19,9 +19,9 @@ Node.js | Express.js | mongoDB | REST API
 ## Endpoints
 
 - /products/{get,post}
-- /products/_prodid{patch,delete}
+- /products/\_prodid{patch,delete}
 - /orders/{get,post}
-- /orders/_prodid{patch,delete}
+- /orders/\_prodid{patch,delete}
 
 ## Features
 
@@ -41,10 +41,17 @@ To Access :
 
 ```
 To Add :
-Eg. Add product : 
+
+Eg. Add product :
 {
     "name":"_name",
-    "price":"_price"
+    "price":_price
+}
+
+Eg. Add Order :
+{
+    "productID":"_prodid",
+    "quantity":_quantity
 }
 
 ```
@@ -86,7 +93,6 @@ GoTo : {url}/_product_id
 To Delete :
 {url}/_product_id
 ```
-
 
 ## CORS
 

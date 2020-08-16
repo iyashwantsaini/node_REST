@@ -16,6 +16,13 @@ Node.js | Express.js | mongoDB | REST API
 - Uniform Interface.
 - Code on Demand(optional).
 
+## Endpoints
+
+- /products/{get,post}
+- /products/_prodid{patch,delete}
+- /orders/{get,post}
+- /orders/_prodid{patch,delete}
+
 ## Features
 
 - GET / get

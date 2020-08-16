@@ -22,6 +22,8 @@ mongoose.connect('mongodb+srv://noderest:' + process.env.MONGO_PASS + '@cluster0
     // }
 );
 
+mongoose.Promise=global.Promise;
+
 // pass all routes to auth
 app.use(morgan('dev'));
 // parsing all url encoded data

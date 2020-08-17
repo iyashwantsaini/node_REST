@@ -49,6 +49,8 @@ Eg. Add product :
 }
 
 Eg. Add Order :
+Due to multer we'll now need to send FORMdata instead
+Send file (img) alone
 {
     "productID":"_prodid",
     "quantity":_quantity
@@ -121,3 +123,4 @@ To Delete :
 - morgan ( for login )
 - body-parser( parsing bodies to make them readable )
 - mongoose ( unofficial mongo client )
+- multer( can also parse incoming FormData Bodies having images etc.)

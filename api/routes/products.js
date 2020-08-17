@@ -3,6 +3,44 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Product = require('../models/product');
 
+const multer = require('multer');
+
+// storage define for image data
+var storage = multer.diskStorage({
+    // cb=callBack
+    destination: function (req, file, cb) {
+        cb(null, './uploads');
+    },
+    // how file should be named
+    filename: function (req, file, cb) {
+        // in windows ":" are not allowed
+        cb(null, new Date().toISOString().replace(/[-T:\.Z]/g, "") + file.originalname)
+    }
+});
+
+// rejecting unwanted extension files
+const fileFilter = (req, file, cb) => {
+
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
+        // accept & store the file
+        cb(null, true);
+    } else {
+        // reject the file
+        cb(null, false);
+    }
+}
+
+// turn it into static in app.js
+// const upload=multer({dest:'uploads/'});
+var upload = multer({
+    storage: storage,
+    limits: {
+        // upto 5 mb allowed
+        fileSize: 1025 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
+
 router.get('/', (req, res, next) => {
     // res.status(200).json({
     //     message: 'GET on /products'
@@ -11,7 +49,7 @@ router.get('/', (req, res, next) => {
     Product
         .find()
         // select the data you wanna fetch
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
         .then(result => {
             console.log(result);
@@ -23,6 +61,7 @@ router.get('/', (req, res, next) => {
                         name: result.name,
                         price: result.price,
                         _id: result._id,
+                        productImage: result.productImage,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/products/' + result._id
@@ -48,14 +87,21 @@ router.get('/', (req, res, next) => {
         });
 });
 
-router.post('/', (req, res, next) => {
-    // accessing using body parser
+// due to multer now we'll need to pass formdata TYPE
+// upload.single() middleware parses 1 incoming file like: img
+router.post('/', upload.single('productImage'), (req, res, next) => {
 
+    // data of file (img) that is sent
+    console.log(req.file);
+
+    // accessing using body parser
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
+
     product
         .save()
         .then(result => {
@@ -67,6 +113,7 @@ router.post('/', (req, res, next) => {
                     nmae: result.name,
                     price: result.price,
                     _id: result._id,
+                    productImage: result.productImage,
                     request: {
                         type: 'POST',
                         url: 'http:localhost:3000/products/' + result._id
@@ -85,7 +132,7 @@ router.post('/', (req, res, next) => {
 router.get('/:productID', (req, res, next) => {
     const id = req.params.productID;
     Product.findById(id)
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
         .then(result => {
             console.log(result);
@@ -142,7 +189,8 @@ router.patch('/:productID', (req, res, next) => {
                 product: {
                     name: result.name,
                     price: result.price,
-                    id: result._id
+                    id: result._id,
+                    productImage: result.productImage
                 },
                 request: {
                     type: 'PATCH',

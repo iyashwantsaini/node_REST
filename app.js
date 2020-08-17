@@ -26,6 +26,11 @@ mongoose.Promise=global.Promise;
 
 // pass all routes to auth
 app.use(morgan('dev'));
+
+// making uploads folder statically available
+// to get an uploaded image goto: {url}.domain/uploads/filename.extension
+app.use('/uploads',express.static('uploads'));
+
 // parsing all url encoded data
 app.use(bodyParser.urlencoded({
     extended: false

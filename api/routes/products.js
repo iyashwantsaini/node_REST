@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Product = require('../models/product');
+const checkAuth = require('../middleware/check');
 
 const multer = require('multer');
 
@@ -89,7 +90,7 @@ router.get('/', (req, res, next) => {
 
 // due to multer now we'll need to pass formdata TYPE
 // upload.single() middleware parses 1 incoming file like: img
-router.post('/', upload.single('productImage'), (req, res, next) => {
+router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
 
     // data of file (img) that is sent
     console.log(req.file);
@@ -162,7 +163,7 @@ router.get('/:productID', (req, res, next) => {
 
 });
 
-router.patch('/:productID', (req, res, next) => {
+router.patch('/:productID', checkAuth, (req, res, next) => {
     const id = req.params.productID;
     // Get list of which parameters to update for product
     const updateOps = {};
@@ -206,7 +207,7 @@ router.patch('/:productID', (req, res, next) => {
         });
 });
 
-router.delete('/:productID', (req, res, next) => {
+router.delete('/:productID', checkAuth, (req, res, next) => {
     const id = req.params.productID;
     Product
         .remove({

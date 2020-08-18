@@ -106,6 +106,23 @@ To Delete :
 }
 ```
 
+- Get JWT / login
+
+```
+{
+    "email":"test@test.com",
+    "password":"tester"
+}
+
+A JWT is returned which can be saved by the client for further requests.
+```
+
+- For all Requests {get/post}
+```
+Send token with the headers in your request to API.
+Authorization: Bearer your_token
+```
+
 ## Asset Upload
 
 - Using MULTER (img upload)

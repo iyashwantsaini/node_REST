@@ -22,6 +22,7 @@ Node.js | Express.js | mongoDB | REST API
 - /products/\_prodid{patch,delete}
 - /orders/{get,post}
 - /orders/\_prodid{patch,delete}
+- /users/signup{post}
 
 ## Features
 
@@ -96,6 +97,34 @@ To Delete :
 {url}/_product_id
 ```
 
+- Add User / signup
+
+```
+{
+    "email":"test@test.com",
+    "password":"tester"
+}
+```
+
+## Asset Upload
+
+- Using MULTER (img upload)
+
+## User Auth
+
+- REST : Stateless : no "session".
+- Client sends auth data.
+- Server provides a token.
+- Client stores the token.
+- Client with a token can access API.
+- Client sends a token with every request.
+- Token : JSON data + Signature : Json Web Token (JWT)
+
+## Salting
+
+- Adding random strings to our password before hashing.
+- This way no one can search a hash dictionary on internet to get translation for our hash.
+
 ## CORS
 
 - CORS : Cross-Origin Resource Sharing
@@ -116,6 +145,15 @@ To Delete :
 }
 ```
 
+## Status Codes
+
+- 200 : operation successful
+- 201 : asset created successfully
+- 404 : not found
+- 500 : unexpected error in fulfilling request
+- 409 : conflict
+- 422 : unprocessable entity
+
 ## Packages
 
 - express
@@ -124,3 +162,4 @@ To Delete :
 - body-parser( parsing bodies to make them readable )
 - mongoose ( unofficial mongo client )
 - multer( can also parse incoming FormData Bodies having images etc.)
+- bcrypt( to hash passwords for security )

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 // import routes
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes=require('./api/routes/users');
 
 // for testing only
 // app.use((req,res,next)=>{
@@ -57,6 +58,9 @@ app.use('/products', productRoutes);
 
 // imported order routes / middleware
 app.use('/orders', orderRoutes);
+
+// imported login/signup routes
+app.use('/users',userRoutes);
 
 // last route used if invalid route is reached
 app.use((req, res, next) => {

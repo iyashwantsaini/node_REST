@@ -119,6 +119,7 @@ To Delete :
 - Client with a token can access API.
 - Client sends a token with every request.
 - Token : JSON data + Signature : Json Web Token (JWT)
+- Try decoding the received token on [JWT.IO](jwt.io)
 
 ## Salting
 
@@ -140,7 +141,8 @@ To Delete :
 {
     "env":{
         "MONGO_PASS":"_pass",
-        "MONGO_DB_NAME":"_dbname"
+        "MONGO_DB_NAME":"_dbname",
+        "JWT_KEY":"xxxxxxxx"
     }
 }
 ```
@@ -153,6 +155,7 @@ To Delete :
 - 500 : unexpected error in fulfilling request
 - 409 : conflict
 - 422 : unprocessable entity
+- 401 : unauthorized client
 
 ## Packages
 
@@ -163,3 +166,4 @@ To Delete :
 - mongoose ( unofficial mongo client )
 - multer( can also parse incoming FormData Bodies having images etc.)
 - bcrypt( to hash passwords for security )
+- jsonwebtoken( to create a JWT for user auth)
